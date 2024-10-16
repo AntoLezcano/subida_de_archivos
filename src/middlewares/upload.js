@@ -1,18 +1,18 @@
 import { v2 as cloudinary } from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import crypto from "node:crypto";
-import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } from "../config.js";
+import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } from "../config/config.js";
 import multer from "multer"
 
 
-//?asigna las credenciales para usarlas en la nube
+
 cloudinary.config({
     cloud_name: CLOUDINARY_CLOUD_NAME,
     api_key: CLOUDINARY_API_KEY,
     api_secret: CLOUDINARY_API_SECRET
 })
 
-const fileFilter = (req, file, cd) => {
+const fileFilter = (_req, file, cd) => {
     if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
         cd(null, true)
     } else {
@@ -20,7 +20,7 @@ const fileFilter = (req, file, cd) => {
     }
 }
 
-//?configura el almacenamiento en la nube
+
 const storage = new CloudinaryStorage({
     cloudinary,
     params: async (_req, file) => {
@@ -32,4 +32,4 @@ const storage = new CloudinaryStorage({
     }
 })
 
-export const upload = multer({ storage })
+export const upload = multer({ storage, fileFilter })
