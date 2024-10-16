@@ -1,1 +1,3 @@
-export const productsDB = []
+const productsDB = []
+
+export default productsDB;
